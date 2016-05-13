@@ -40,7 +40,7 @@ export default class MainContent extends React.Component {
   }
 
   fileNameToPath(fileName) {
-    const snippets = fileName.replace(/(\/index)?\.md$/i, '').split('/');
+    const snippets = fileName.replace(/\\/g,'/').replace(/(\/index)?\.md$/i, '').split('/');
     return snippets[snippets.length - 1];
   }
 
@@ -52,7 +52,7 @@ export default class MainContent extends React.Component {
         <span className="chinese" key="chinese">{item.chinese}</span>,
       ];
     const disabled = item.disabled;
-    const url = item.fileName.replace(/(\/index)?\.md$/i, '');
+    const url = item.fileName.replace(/\\/g,'/').replace(/(\/index)?\.md$/i, '');
     const child = !item.link ?
       <Link to={url} disabled={disabled}>
         {text}

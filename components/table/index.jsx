@@ -30,6 +30,15 @@ const defaultPagination = {
   onShowSizeChange: noop,
 };
 
+const rownumberColumn = {
+  title: '',
+  dataIndex: 'id',
+  className : 'cell-rownumber',
+  render(id,row,index) {
+    return <span>{index + 1}</span>;
+  } 
+};
+
 export default class Table extends React.Component {
   static propTypes = {
     dataSource: React.PropTypes.array,
@@ -42,6 +51,7 @@ export default class Table extends React.Component {
     bordered: React.PropTypes.bool,
     onChange: React.PropTypes.func,
     locale: React.PropTypes.object,
+    rownumbers: React.PropTypes.bool,
   }
 
   static defaultProps = {
@@ -56,6 +66,7 @@ export default class Table extends React.Component {
     indentSize: 20,
     onChange: noop,
     locale: {},
+    rownumbers:false,
   }
 
   static contextTypes = {
@@ -673,6 +684,13 @@ export default class Table extends React.Component {
     const { style, className, ...restProps } = this.props;
     const data = this.getCurrentPageData();
     let columns = this.renderRowSelection();
+
+    //行编号
+    if (this.props.rownumbers) {
+        columns.unshift(rownumberColumn);
+    }
+    ///
+
     const expandIconAsCell = this.props.expandedRowRender && this.props.expandIconAsCell !== false;
     const locale = this.getLocale();
 

@@ -11,7 +11,7 @@ if (module.hot) {
 }
 
 function fileNameToPath(fileName) {
-  const snippets = fileName.replace(/(\/index)?\.md$/i, '').split('/');
+  const snippets = fileName.replace(/\\/g,'/').replace(/(\/index)?\.md$/i, '').split('/');
   return snippets[snippets.length - 1];
 }
 
