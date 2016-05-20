@@ -259,20 +259,27 @@ export default class Table extends React.Component {
   }
 
   handleFilter = (column, nextFilters) => {
+    const props = this.props;
+    let pagination = { ...this.state.pagination };
     const filters = {
       ...this.state.filters,
       [this.getColumnKey(column)]: nextFilters,
     };
     // Remove filters not in current columns
-    const currentColumnKeys = this.props.columns.map(c => this.getColumnKey(c));
+    const currentColumnKeys = props.columns.map(c => this.getColumnKey(c));
     Object.keys(filters).forEach((columnKey) => {
       if (currentColumnKeys.indexOf(columnKey) < 0) {
         delete filters[columnKey];
       }
     });
 
+    // Reset current prop
+    pagination.current = 1;
+    pagination.onChange(pagination.current);
+
     const newState = {
       selectionDirty: false,
+      pagination,
     };
     const filtersToSetState = { ...filters };
     // Remove filters which is controlled
@@ -285,9 +292,21 @@ export default class Table extends React.Component {
     if (Object.keys(filtersToSetState).length > 0) {
       newState.filters = filtersToSetState;
     }
+
+    // Controlled current prop will not respond user interaction
+    if (props.pagination && 'current' in props.pagination) {
+      newState.pagination = {
+        ...pagination,
+        current: this.state.pagination.current,
+      };
+    }
+
     this.setState(newState, () => {
-      this.props.onChange(...this.prepareParamsArguments({
-        ...this.state, selectionDirty: false, filters,
+      props.onChange(...this.prepareParamsArguments({
+        ...this.state,
+        selectionDirty: false,
+        filters,
+        pagination,
       }));
     });
   }
@@ -581,7 +600,7 @@ export default class Table extends React.Component {
     }));
   }
 
-  renderPagination(data) {
+  renderPagination() {
     // 强制不需要分页
     if (!this.hasPagination()) {
       return null;
@@ -592,7 +611,7 @@ export default class Table extends React.Component {
     } else if (this.props.size === 'middle' || this.props.size === 'small') {
       size = 'small';
     }
-    let total = this.state.pagination.total || (data || this.getLocalData()).length;
+    let total = this.state.pagination.total || this.getLocalData().length;
     return (total > 0) ?
       <Pagination {...this.state.pagination}
         className={`${this.props.prefixCls}-pagination`}
@@ -737,7 +756,7 @@ export default class Table extends React.Component {
     return (
       <div className={`${emptyClass} ${className} clearfix`} style={style}>
         {<Spin className={spinClassName} spinning={this.props.loading}>{table}</Spin>}
-        {this.renderPagination(data)}
+        {this.renderPagination()}
       </div>
     );
   }

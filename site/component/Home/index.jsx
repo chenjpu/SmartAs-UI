@@ -54,6 +54,15 @@ export default class Home extends React.Component {
       .home-nav-white #nav a {
         color: #666;
       }
+      .nav-phone-icon:before {
+        background: #eee;
+        box-shadow: 0 7px 0 0 #eee, 0 14px 0 0 #eee;
+      }
+      .home-nav-white .nav-phone-icon:before {
+        background: #777;
+        box-shadow: 0 7px 0 0 #777, 0 14px 0 0 #777;
+      }
+      #lang,
       #nav a {
         color: #eee;
         transition: color 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
@@ -76,6 +85,9 @@ export default class Home extends React.Component {
       }
       #footer a {
         color: #eee;
+      }
+      .down {
+        animation: upDownMove 1.2s ease-in-out infinite;
       }
     `;
   }

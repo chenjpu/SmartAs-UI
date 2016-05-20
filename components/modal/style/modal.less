@@ -5,6 +5,7 @@
   width: auto;
   margin: 0 auto;
   top: 100px;
+  padding-bottom: 24px;
 
   &-wrap {
     position: fixed;
@@ -46,6 +47,7 @@
     text-decoration: none;
     transition: color .3s ease;
     color: #999;
+    outline: 0;
 
     &-x {
       display: block;
@@ -66,6 +68,7 @@
       }
     }
 
+    &:focus,
     &:hover {
       color: #444;
       text-decoration: none;
@@ -119,5 +122,9 @@
     &-hidden {
       display: none;
     }
+  }
+
+  &-open {
+    overflow: hidden;
   }
 }
