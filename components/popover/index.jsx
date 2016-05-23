@@ -1,6 +1,5 @@
 import React from 'react';
 import Tooltip from '../tooltip';
-import Icon from '../icon';
 import getPlacements from './placements';
 import warning from 'warning';
 
@@ -15,24 +14,6 @@ export default class Popover extends React.Component {
     mouseEnterDelay: 0.1,
     mouseLeaveDelay: 0.1,
     overlayStyle: {},
-    showClose:false,
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      visible: false,
-    };
-  }
-  
-  hide() {
-    this.setState({
-      visible: false,
-    });
-  }
-
-  handleVisibleChange(visible) {
-    this.setState({ visible });
   }
 
   render() {
@@ -41,8 +22,6 @@ export default class Popover extends React.Component {
         builtinPlacements={placements}
         ref="tooltip"
         {...this.props}
-        visible={this.state.visible}
-        onVisibleChange={this.handleVisibleChange.bind(this)}
         overlay={this.getOverlay()}>
         {this.props.children}
       </Tooltip>
@@ -62,18 +41,11 @@ export default class Popover extends React.Component {
   getOverlay() {
     // use content replace overlay
     // keep overlay for compatibility
-    const { title, prefixCls, overlay, content, showClose } = this.props;
-
-    let titleOpt = null;
-    if(showClose){
-      titleOpt = <div className={`${prefixCls}-title`}>{title}<div className={`${prefixCls}-close`} onClick={this.hide.bind(this)}><Icon type="cross"/></div></div>
-    }else if(title){
-      titleOpt = <div className={`${prefixCls}-title`}>{title}</div>
-    }
+    const { title, prefixCls, overlay, content } = this.props;
 
     return (
       <div>
-        {titleOpt}
+        {title && <div className={`${prefixCls}-title`}>{title}</div>}
         <div className={`${prefixCls}-inner-content`}>
           {content || overlay}
         </div>
