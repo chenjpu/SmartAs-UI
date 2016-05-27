@@ -273,9 +273,11 @@ export default class Table extends React.Component {
       }
     });
 
-    // Reset current prop
-    pagination.current = 1;
-    pagination.onChange(pagination.current);
+    if (props.pagination) {
+      // Reset current prop
+      pagination.current = 1;
+      pagination.onChange(pagination.current);
+    }
 
     const newState = {
       selectionDirty: false,
@@ -515,6 +517,9 @@ export default class Table extends React.Component {
           render: this.renderSelectionCheckBox,
           className: 'ant-table-selection-column',
         };
+      }
+      if (columns.some(column => column.fixed === 'left' || column.fixed === true)) {
+        selectionColumn.fixed = 'left';
       }
       if (columns[0] && columns[0].key === 'selection-column') {
         columns[0] = selectionColumn;

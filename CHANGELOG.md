@@ -8,6 +8,23 @@ timeline: true
 你也可以查看 GitHub 上的 [发布日志](https://github.com/ant-design/ant-design/releases)。
 
 ---
+## 1.2.0
+
+`2016-05-26`
+
+- Input 组件的文档现在和 Form 分离。 [3c98d3](https://github.com/ant-design/ant-design/commit/3c98d3f80f4ec80066756adc3b4108141d4383ca)
+- Affix
+  - 新增了 `onChange` 属性。当固定状态改变时回调 [#1777](https://github.com/ant-design/ant-design/issues/1777)
+  - 找回了从 affixStyle 中走失的 `width` 属性，修复固定后错位的问题。[#1820](https://github.com/ant-design/ant-design/issues/1820)
+- Table
+  - 修复了 Table 组件的分页相关的一系列问题 [#1669](https://github.com/ant-design/ant-design/issues/1669) [#1842](https://github.com/ant-design/ant-design/issues/1842)
+  - 修复了当有列固定在左边时，选择框不显示的问题 [#1829](https://github.com/ant-design/ant-design/issues/1829)
+- 修复了当 Checkbox 的 label 为数字 0 时， label 不显示的问题 [#1811](https://github.com/ant-design/ant-design/issues/1811)
+- 修复了 Tag 组件为 closeable 时，内部链接无法点击的问题 [#1862](https://github.com/ant-design/ant-design/issues/1862)
+- Tab 组件新增 `hideAdd` 属性，用于关闭右边的添加按钮 [#1750](https://github.com/ant-design/ant-design/issues/1750)
+- 修复了一个在某些情况下找不到 `normalize.css/normalize.css` 文件的问题。[ant-design/antd-init#52](https://github.com/ant-design/antd-init/issues/52)
+- 修复构建文件在 IE8 下报错的问题。[#1804](https://github.com/ant-design/ant-design/issues/1804)
+- 更新了第三方依赖。
 
 ## 1.1.0
 
@@ -24,7 +41,7 @@ timeline: true
 - Modal
   - 修复弹出时背景依然跟随滚动的问题。[#1751](https://github.com/ant-design/ant-design/issues/1751)
   - 修复关闭按钮获得焦点时的样式问题。[#1668](https://github.com/ant-design/ant-design/issues/1668)
-- 修复 Form 搜索输入框样式问题。[7b7f846](https://github.com/ant-design/ant-design/commit/7b7f8461611e53f4f96ae8d64d37fe28ee8d2553)
+- 将搜索输入框相关样式移到 Input 组件下。[7b7f846](https://github.com/ant-design/ant-design/commit/7b7f8461611e53f4f96ae8d64d37fe28ee8d2553)
 - 修复 Select 获得焦点时的样式问题。[#1684](https://github.com/ant-design/ant-design/issues/1684)
 - 修复 TreeSelect 占位符样式问题。[#1657](https://github.com/ant-design/ant-design/issues/1657)
 - 修复了类型定义以更好地支持 `TypeScript`。[#1696](https://github.com/ant-design/ant-design/pull/1696) [@xujihui1985](https://github.com/xujihui1985)
@@ -78,6 +95,7 @@ timeline: true
 - Modal 移除了 `align` 属性，现在可以使用 `style` 属性调整位置。
 - `Modal.confirm` 等方法的配置项 `iconClassName` 重命名为 `iconType`。
 - Select 移除了 `onChange` 中的 `label` 参数，新增了 `labelInValue` 属性。[#1695](https://github.com/ant-design/ant-design/issues/1695)
+- 移除了 `import { Form } from 'antd/lib/form';` 的用法，应统一为 `import { Form } from 'antd';` 或 `import Form from 'antd/lib/form';`。
 
 #### 有兼容提示的改动
 
@@ -109,6 +127,7 @@ timeline: true
 ### 其他改进
 
 - 样式变量梳理，去除了部分无用的变量，另外还有大量样式细节问题修复。
+- 依赖的 normalize.css 升级到 [4.x](https://github.com/necolas/normalize.css/blob/4.1.1/CHANGELOG.md)。
 - 使用 ES2016 classes 重构了代码。[@waywardmonkeys](https://github.com/waywardmonkeys)
 - Popover、Popconfirm 和 Tooltip 组件根据不同的弹出位置有了更精准方向的弹出动画。
 - 补充 Select TreeSelect Switch Radio Checkbox 等组件的 `focus` 表现，增强表单组件的可用性。[#1358](https://github.com/ant-design/ant-design/issues/1358)
