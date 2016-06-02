@@ -28,27 +28,6 @@ export default class Form extends React.Component {
     };
   }
 
-
-  ///////////扩展定义，格式化表单的值
-  getFormatFieldsValue(names) {
-  const fields = names || this.getValidFieldsName();
-    const allValues = {};
-    fields.forEach((f) => {
-      allValues[f] = this.getFormatValue(f);
-    });
-    return allValues;
-  }
-  
-  getFormatValue(name) {
-	const fieldMeta = this.getFieldMeta(name), field = this.getField(name);
-	if (field && 'value' in field) {
-		var formatter = (fieldMeta && fieldMeta.formatter);
-		return formatter ? formatter(field.value) : field.value
-	}
-	return fieldMeta && fieldMeta.initialValue;
-  }
-  //////////////////////////////
-
   render() {
     const { prefixCls, className, style } = this.props;
     const formClassName = classNames({

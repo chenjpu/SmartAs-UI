@@ -13,7 +13,7 @@ const mixin = {
     };
   },
 
-  ///////////扩展定义，格式化表单的值
+///////////扩展定义，格式化表单的值
   getFormatFieldsValue(names) {
 	const fields = names || this.getValidFieldsName();
     const allValues = {};
@@ -24,15 +24,13 @@ const mixin = {
   },
   
   getFormatValue(name) {
-    const { fieldsMeta,fields} = this;
-    const field = fields[name];
-    const fieldMeta = fieldsMeta[name];
-    if (field && 'value' in field) {
-    	var formatter = (fieldMeta && fieldMeta.formatter) || field.instance.formatter;
-    	return formatter ? formatter(field.value) : field.value
-    }
-    return fieldMeta && fieldMeta.initialValue;
-  },
+	const fieldMeta = this.getFieldMeta(name), field = this.getField(name),instance = this.getFieldInstance(name);
+	if (field && 'value' in field) {
+		var formatter = (fieldMeta && fieldMeta.formatter) || (instance && instance.formatter);
+		return formatter ? formatter(field.value) : field.value
+	}
+	return fieldMeta && fieldMeta.initialValue;
+  }
   //////////////////////////////
 };
 
