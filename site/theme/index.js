@@ -1,6 +1,6 @@
 const contentTmpl = './template/Content/index';
 
-export default {
+module.exports = {
   categoryOrder: {
     组件: 0,
     十大原则: 0,
@@ -25,7 +25,7 @@ export default {
     '/docs/practice/:children': contentTmpl,
     '/docs/pattern/:children': contentTmpl,
     '/docs/react/:children': contentTmpl,
-    '/CHANGELOG': contentTmpl,
+    '/changelog': contentTmpl,
     '/components/:children': contentTmpl,
     '/docs/spec/:children': contentTmpl,
     '/docs/resource/:children': contentTmpl,

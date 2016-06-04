@@ -8,6 +8,10 @@
 
 An enterprise-class UI design language and React-based implementation.
 
+## :loudspeaker: Document Translation Recruitment
+
+We are now working on translate components document to English, and we need some translator and reviewer. https://github.com/ant-design/ant-design/issues/1471
+
 ## Features
 
 - An enterprise-class design language and high quality UI style.
@@ -92,7 +96,7 @@ tsconfig.json
 - [Developer Instruction](https://github.com/ant-design/ant-design/wiki/Development)
 - [Versioning Release Note](https://github.com/ant-design/ant-design/wiki/%E7%89%88%E6%9C%AC%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B)
 - [FAQ](https://github.com/ant-design/ant-design/wiki/FAQ)
-
+- [CodePen boilerplate](http://codepen.io/anon/pen/wGOWGW?editors=001) for bug reports
 
 ## Contributing
 

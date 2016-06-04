@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as antd from '../../../../index';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import Header from './Header';
 import Footer from './Footer';
@@ -10,7 +11,7 @@ import '../../static/style';
 // Expose to iframe
 window.react = React;
 window['react-dom'] = ReactDOM;
-window.antd = require('antd');
+window.antd = antd;
 
 // Enable Google Analytics
 if (!location.port) {
@@ -21,10 +22,6 @@ if (!location.port) {
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
   ga('create', 'UA-72788897-1', 'auto');
   ga('send', 'pageview');
-
-  appHistory.listen((loc) => {
-    ga('send', 'pageview', loc.pathname + loc.search);
-  });
   /* eslint-enable */
 }
 
@@ -57,14 +54,31 @@ const isZhCN = (typeof localStorage !== 'undefined' && localStorage.getItem('loc
 const appLocale = isZhCN ? cnLocale : enLocale;
 addLocaleData(appLocale.data);
 
-export default (props) => {
-  return (
-    <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
-      <div className="page-wrapper">
-        <Header {...props} />
-        {props.children}
-        <Footer />
-      </div>
-    </IntlProvider>
-  );
-};
+let gaListenerSetted = false;
+export default class Layout extends React.Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+  }
+
+  componentDidMount() {
+    if (typeof ga !== 'undefined' && !gaListenerSetted) {
+      this.context.router.listen((loc) => {
+        window.ga('send', 'pageview', loc.pathname + loc.search);
+      });
+      gaListenerSetted = true;
+    }
+  }
+
+  render() {
+    const props = this.props;
+    return (
+      <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
+        <div className="page-wrapper">
+          <Header {...props} />
+          {props.children}
+          <Footer />
+        </div>
+      </IntlProvider>
+    );
+  }
+}

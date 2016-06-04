@@ -266,6 +266,10 @@
       box-shadow: none;
       border-radius: @border-radius-base @border-radius-base 0 0;
 
+      &-item > label + span {
+        margin-left: 8px;
+      }
+
       &-sub {
         border-radius: @border-radius-base;
         border: 1px solid @border-color-base;
@@ -313,12 +317,16 @@
     }
   }
 
+  &-expand-icon-th {
+    width: 34px;
+  }
+
   &-row {
     &-expand-icon {
       cursor: pointer;
       display: inline-block;
-      width: 18px;
-      height: 18px;
+      width: 17px;
+      height: 17px;
       text-align: center;
       line-height: 15px;
       border: 1px solid @border-color-split;
@@ -362,6 +370,10 @@
 
   &-scroll {
     overflow: auto;
+    table {
+      width: auto;
+      min-width: 100%;
+    }
   }
 
   &-body-inner {
@@ -385,6 +397,20 @@
       width: auto;
       background: #fff;
     }
+  }
+
+  &-fixed-left,
+  &-fixed-right,
+  &-scroll {
+    th,
+    td {
+      white-space: nowrap;
+    }
+  }
+
+  &-fixed-left &-fixed,
+  &-fixed-right &-fixed {
+    border-radius: 0;
   }
 
   &-fixed-left {
@@ -413,6 +439,12 @@
     &,
     table {
       border-radius: 0 @border-radius-base 0 0;
+    }
+    // hide expand row content in right-fixed Table
+    // https://github.com/ant-design/ant-design/issues/1898
+    .@{table-prefix-cls}-expanded-row {
+      color: transparent;
+      pointer-events: none;
     }
   }
 
