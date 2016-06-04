@@ -15,10 +15,18 @@ export default class BreadcrumbNav extends React.Component {
     ]),
     paths: React.PropTypes.array,
   }
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+    	paths: props.paths,
+    };
+  }
 
   render() {
       let crumbs;
-      const { separator, prefixCls, paths} = this.props;
+      const { separator, prefixCls} = this.props,
+      		{paths} = this.state;
       if (paths && paths.length > 0) {
         crumbs = paths.map(function(name, i) {
           return <BreadcrumbItem separator={separator} key={name}>{name}</BreadcrumbItem>;
