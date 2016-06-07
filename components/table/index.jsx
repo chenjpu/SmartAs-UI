@@ -441,7 +441,8 @@ export default class Table extends React.Component {
     return (
       <Radio disabled={props.disabled} onClick={stopPropagation}
         onChange={(e) => this.handleRadioSelect(record, rowIndex, e)}
-        value={rowIndex} checked={checked} />
+        value={rowIndex} checked={checked}
+      />
     );
   }
 
@@ -460,7 +461,8 @@ export default class Table extends React.Component {
     }
     return (
       <Checkbox checked={checked} disabled={props.disabled} onClick={stopPropagation}
-        onChange={(e) => this.handleSelect(record, rowIndex, e)} />
+        onChange={(e) => this.handleSelect(record, rowIndex, e)}
+      />
     );
   }
 
@@ -509,7 +511,8 @@ export default class Table extends React.Component {
         const checkboxAll = (
           <Checkbox checked={checked}
             disabled={checkboxAllDisabled}
-            onChange={this.handleSelectAllRow} />
+            onChange={this.handleSelectAllRow}
+          />
         );
         selectionColumn = {
           key: 'selection-column',
@@ -555,7 +558,8 @@ export default class Table extends React.Component {
         filterDropdown = (
           <FilterDropdown locale={locale} column={column}
             selectedKeys={colFilters}
-            confirmFilter={this.handleFilter} />
+            confirmFilter={this.handleFilter}
+          />
         );
       }
       if (column.sorter) {
@@ -572,12 +576,14 @@ export default class Table extends React.Component {
           <div className="ant-table-column-sorter">
             <span className={`ant-table-column-sorter-up ${isAscend ? 'on' : 'off'}`}
               title="↑"
-              onClick={() => this.toggleSortOrder('ascend', column)}>
+              onClick={() => this.toggleSortOrder('ascend', column)}
+            >
               <Icon type="caret-up" />
             </span>
             <span className={`ant-table-column-sorter-down ${isDescend ? 'on' : 'off'}`}
               title="↓"
-              onClick={() => this.toggleSortOrder('descend', column)}>
+              onClick={() => this.toggleSortOrder('descend', column)}
+            >
               <Icon type="caret-down" />
             </span>
           </div>
@@ -623,7 +629,8 @@ export default class Table extends React.Component {
         onChange={this.handlePageChange}
         total={total}
         size={size}
-        onShowSizeChange={this.handleShowSizeChange} /> : null;
+        onShowSizeChange={this.handleShowSizeChange}
+      /> : null;
   }
 
   prepareParamsArguments(state) {
@@ -747,7 +754,8 @@ export default class Table extends React.Component {
           columns={columns}
           className={classString}
           expandIconColumnIndex={(columns[0] && columns[0].key === 'selection-column') ? 1 : 0}
-          expandIconAsCell={expandIconAsCell} />
+          expandIconAsCell={expandIconAsCell}
+        />
           {emptyText}
       </div>
     );

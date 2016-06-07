@@ -29,8 +29,9 @@ const App = React.createClass({
       </div>
     );
     return (
-      <Popover content={content} title="标题" trigger="click" showClose
-        visible={this.state.visible} onVisibleChange={this.handleVisibleChange}>
+      <Popover content={content} title="标题" trigger="click"
+        visible={this.state.visible} onVisibleChange={this.handleVisibleChange}
+      >
         <Button type="primary">点击弹出卡片</Button>
       </Popover>
     );
