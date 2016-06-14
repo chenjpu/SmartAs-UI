@@ -112,9 +112,15 @@ export default class Table extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (('pagination' in nextProps) && nextProps.pagination !== false) {
-      this.setState(previousState => ({
-        pagination: { ...defaultPagination, ...previousState.pagination, ...nextProps.pagination },
-      }));
+      this.setState(previousState => {
+        const newPagination = {
+          ...defaultPagination,
+          ...previousState.pagination,
+          ...nextProps.pagination,
+        };
+        newPagination.current = newPagination.current || 1;
+        return { pagination: newPagination };
+      });
     }
     // dataSource 的变化会清空选中项
     if ('dataSource' in nextProps &&
@@ -439,10 +445,12 @@ export default class Table extends React.Component {
                  this.getDefaultSelection().indexOf(rowIndex) >= 0);
     }
     return (
-      <Radio disabled={props.disabled} onClick={stopPropagation}
-        onChange={(e) => this.handleRadioSelect(record, rowIndex, e)}
-        value={rowIndex} checked={checked}
-      />
+      <span onClick={stopPropagation}>
+        <Radio disabled={props.disabled}
+          onChange={(e) => this.handleRadioSelect(record, rowIndex, e)}
+          value={rowIndex} checked={checked}
+        />
+      </span>
     );
   }
 
@@ -460,9 +468,13 @@ export default class Table extends React.Component {
       props = this.props.rowSelection.getCheckboxProps.call(this, record);
     }
     return (
-      <Checkbox checked={checked} disabled={props.disabled} onClick={stopPropagation}
-        onChange={(e) => this.handleSelect(record, rowIndex, e)}
-      />
+      <span onClick={stopPropagation}>
+        <Checkbox
+          checked={checked}
+          disabled={props.disabled}
+          onChange={(e) => this.handleSelect(record, rowIndex, e)}
+        />
+      </span>
     );
   }
 
