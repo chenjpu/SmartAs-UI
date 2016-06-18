@@ -18,21 +18,11 @@ export default function wrapPicker(Picker, defaultFormat) {
       align: {
         offset: [0, -9],
       },
-      open: false,
     }
 
     static contextTypes = {
       antLocale: PropTypes.object,
     }
-
-    constructor(props) {
-      super(props);
-
-      this.state = {};
-    }
-
-    // remove input readonly warning
-    handleInputChange() {}
 
     getLocale() {
       const props = this.props;
@@ -66,19 +56,14 @@ export default function wrapPicker(Picker, defaultFormat) {
       return value;
     }
 
-    toggleOpen = (e) => {
-      this.setState({
-        open: e.open,
-      });
-      this.props.toggleOpen(e);
+    toggleOpen = ({ open }) => {
+      this.props.toggleOpen({ open });
     }
 
     render() {
       const props = this.props;
-      const state = this.state;
       const pickerClass = classNames({
         'ant-calendar-picker': true,
-        'ant-calendar-picker-open': state.open,
       });
       const pickerInputClass = classNames({
         'ant-calendar-range-picker': true,
@@ -108,13 +93,12 @@ export default function wrapPicker(Picker, defaultFormat) {
 
       return (
         <Picker
-          {...this.props}
+          {...props}
           pickerClass={pickerClass}
           pickerInputClass={pickerInputClass}
           locale={locale}
           timePicker={timePicker}
           toggleOpen={this.toggleOpen}
-          handleInputChange={this.handleInputChange}
           getFormatter={this.getFormatter}
           parseDateFromValue={this.parseDateFromValue}
         />

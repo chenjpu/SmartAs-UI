@@ -91,14 +91,30 @@ export default class Table extends React.Component {
           current: pagination.defaultCurrent || pagination.current || 1,
         } : {},
     };
+
+    this.CheckboxPropsCache = {};
+  }
+
+  getCheckboxPropsByItem(item) {
+    const { rowSelection = {} } = this.props;
+    if (!rowSelection.getCheckboxProps) {
+      return {};
+    }
+    const key = this.getRecordKey(item);
+    // Cache checkboxProps
+    if (!this.CheckboxPropsCache[key]) {
+      this.CheckboxPropsCache[key] = rowSelection.getCheckboxProps(item);
+    }
+    return this.CheckboxPropsCache[key];
   }
 
   getDefaultSelection() {
-    if (!this.props.rowSelection || !this.props.rowSelection.getCheckboxProps) {
+    const { rowSelection = {} } = this.props;
+    if (!rowSelection.getCheckboxProps) {
       return [];
     }
     return this.getFlatCurrentPageData()
-      .filter(item => this.props.rowSelection.getCheckboxProps(item).defaultChecked)
+      .filter(item => this.getCheckboxPropsByItem(item).defaultChecked)
       .map((record, rowIndex) => this.getRecordKey(record, rowIndex));
   }
 
@@ -128,12 +144,16 @@ export default class Table extends React.Component {
       this.setState({
         selectionDirty: false,
       });
+      this.CheckboxPropsCache = {};
     }
     if (nextProps.rowSelection &&
         'selectedRowKeys' in nextProps.rowSelection) {
       this.setState({
         selectedRowKeys: nextProps.rowSelection.selectedRowKeys || [],
       });
+      if (nextProps.rowSelection.getCheckboxProps !== this.props.rowSelection.getCheckboxProps) {
+        this.CheckboxPropsCache = {};
+      }
     }
 
     if (this.getSortOrderColumns(nextProps.columns).length > 0) {
@@ -366,10 +386,9 @@ export default class Table extends React.Component {
     const data = this.getFlatCurrentPageData();
     const defaultSelection = this.state.selectionDirty ? [] : this.getDefaultSelection();
     const selectedRowKeys = this.state.selectedRowKeys.concat(defaultSelection);
-    const changableRowKeys = data.filter(item =>
-      !this.props.rowSelection.getCheckboxProps ||
-      !this.props.rowSelection.getCheckboxProps(item).disabled
-    ).map((item, i) => this.getRecordKey(item, i));
+    const changableRowKeys = data
+      .filter(item => !this.getCheckboxPropsByItem(item).disabled)
+      .map((item, i) => this.getRecordKey(item, i));
 
     // 记录变化的列
     const changeRowKeys = [];
@@ -433,10 +452,7 @@ export default class Table extends React.Component {
 
   renderSelectionRadio = (value, record, index) => {
     let rowIndex = this.getRecordKey(record, index); // 从 1 开始
-    let props = {};
-    if (this.props.rowSelection.getCheckboxProps) {
-      props = this.props.rowSelection.getCheckboxProps.call(this, record);
-    }
+    const props = this.getCheckboxPropsByItem(record);
     let checked;
     if (this.state.selectionDirty) {
       checked = this.state.selectedRowKeys.indexOf(rowIndex) >= 0;
@@ -463,10 +479,7 @@ export default class Table extends React.Component {
       checked = (this.state.selectedRowKeys.indexOf(rowIndex) >= 0 ||
                  this.getDefaultSelection().indexOf(rowIndex) >= 0);
     }
-    let props = {};
-    if (this.props.rowSelection.getCheckboxProps) {
-      props = this.props.rowSelection.getCheckboxProps.call(this, record);
-    }
+    const props = this.getCheckboxPropsByItem(record);
     return (
       <span onClick={stopPropagation}>
         <Checkbox
@@ -486,11 +499,11 @@ export default class Table extends React.Component {
   }
 
   renderRowSelection() {
-    let columns = this.props.columns.concat();
+    const columns = this.props.columns.concat();
     if (this.props.rowSelection) {
-      let data = this.getFlatCurrentPageData().filter((item) => {
+      const data = this.getFlatCurrentPageData().filter((item) => {
         if (this.props.rowSelection.getCheckboxProps) {
-          return !this.props.rowSelection.getCheckboxProps(item).disabled;
+          return !this.getCheckboxPropsByItem(item).disabled;
         }
         return true;
       });
@@ -504,9 +517,7 @@ export default class Table extends React.Component {
           : (
             data.every((item, i) =>
               this.state.selectedRowKeys.indexOf(this.getRecordKey(item, i)) >= 0) ||
-            data.every((item) =>
-              this.props.rowSelection.getCheckboxProps &&
-              this.props.rowSelection.getCheckboxProps(item).defaultChecked)
+            data.every(item => this.getCheckboxPropsByItem(item).defaultChecked)
           );
       }
       let selectionColumn;
@@ -517,9 +528,7 @@ export default class Table extends React.Component {
           className: 'ant-table-selection-column',
         };
       } else {
-        const checkboxAllDisabled = data.every(item =>
-          this.props.rowSelection.getCheckboxProps &&
-          this.props.rowSelection.getCheckboxProps(item).disabled);
+        const checkboxAllDisabled = data.every(item => this.getCheckboxPropsByItem(item).disabled);
         const checkboxAll = (
           <Checkbox checked={checked}
             disabled={checkboxAllDisabled}

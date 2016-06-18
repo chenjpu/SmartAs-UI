@@ -9,6 +9,23 @@ timeline: true
 
 ---
 
+## 1.5.0
+
+`2016-06-17`
+
+- 升级 `rc-form` 到 0.17，支持 `getFieldProps('xx.yy')` 的写法，并支持单多选控件进行关联。[#](https://github.com/react-component/form/pull/21)
+- Input 的 `addonBefore` 和 `addonAfter` 支持内嵌选择框。[#1927](https://github.com/ant-design/ant-design/issues/1927)
+- 优化了两个 DatePicker 组成的时间范围选择演示的体验。
+- 优化一个多个对话框的遮罩层高度的问题。[#2009](https://github.com/ant-design/ant-design/issues/2009)
+- 优化 Table 的 `getCheckboxProps` 的调用次数。[#2086](https://github.com/ant-design/ant-design/issues/2086)
+- 修复 Table 固定列时，表头无法左右滚动的问题。[#2068](https://github.com/ant-design/ant-design/issues/2068)
+- 修复小型表格固定表头的样式。[#2023](https://github.com/ant-design/ant-design/issues/2023)
+- 修复 Tabs 的 `tabPosition` 为左右时样式错位的问题。[#2046](https://github.com/ant-design/ant-design/issues/2046)
+- 修复 RangePicker 的日期范围背景丢失的问题。
+- 修复 Switch 失效状态下文字颜色太浅的问题。[#2051](https://github.com/ant-design/ant-design/issues/2051)
+- 修复一个 Select 的 `disabled` 选项依然可以被移除的问题。[#2034](https://github.com/ant-design/ant-design/issues/2034)
+- 修复官方站点在 IE 下的报错问题。
+
 ## 1.4.1
 
 `2016-06-12`
@@ -140,7 +157,7 @@ timeline: true
 
 此版本有部分不兼容的改动，升级时确保修改相应的使用代码。
 
-- 推荐使用样式按需加载, 如果需要整体载入样式, **样式入口文件变为** `antd/dist/antd.css` 和 `antd/dist/antd.less`。如果你在项目中覆盖了 less 变量，less 文件的引用方式也有 [相应变更](https://github.com/ant-design/ant-design/issues/1558#issuecomment-218120000)。
+- 推荐使用样式按需加载。如果依然需要整体载入样式，**样式入口文件已变为** `antd/dist/antd.css` 和 `antd/dist/antd.less`。如果你在项目中覆盖了 less 变量，less 文件的引用方式也有 [相应变更](https://github.com/ant-design/ant-design/issues/1558#issuecomment-218120000)。
 
    ```diff
    - import 'antd/lib/index.css';  // import 'antd/style/index.less';

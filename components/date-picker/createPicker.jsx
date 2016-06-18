@@ -81,6 +81,7 @@ export default function createPicker(TheCalendar) {
             style={props.popupStyle}
             align={props.align}
             getCalendarContainer={props.getCalendarContainer}
+            open={props.open}
             onOpen={props.toggleOpen}
             onClose={props.toggleOpen}
             onChange={this.handleChange}
@@ -91,7 +92,7 @@ export default function createPicker(TheCalendar) {
                   <span>
                     <input
                       disabled={props.disabled}
-                      onChange={props.handleInputChange}
+                      readOnly
                       value={value ? props.getFormatter().format(value) : ''}
                       placeholder={placeholder}
                       className={props.pickerInputClass}
