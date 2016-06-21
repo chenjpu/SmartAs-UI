@@ -25,4 +25,3 @@ ReactDOM.render(
   </Carousel>
 , mountNode);
 ````
-
