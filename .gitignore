@@ -16,6 +16,7 @@ Thumbs.db
 *.swo
 *.log
 node_modules/
+node_modules___/
 .buildpath
 .settings
 npm-debug.log

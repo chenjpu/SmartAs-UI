@@ -1,7 +1,8 @@
 import Form from './Form';
 import FormItem from './FormItem';
 import ValueMixin from './ValueMixin';
-import createDOMForm from 'rc-form/lib/createDOMForm';
+//import createDOMForm from 'rc-form/lib/createDOMForm';
+import { mixin as formMixin } from 'rc-form/lib/createForm';
 import createBaseForm from 'rc-form/lib/createBaseForm';
 
 import assign from 'object-assign';
@@ -40,6 +41,7 @@ Form.create = (o = {}) => {
   });
 
   return createBaseForm(options,[mixin]);
+  //return createDOMForm(options);
 };
 Form.Item = FormItem;
 
