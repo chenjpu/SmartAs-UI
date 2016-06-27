@@ -30,6 +30,7 @@ const defaultPagination = {
   onShowSizeChange: noop,
 };
 
+
 const rownumberColumn = {
   title: '',
   dataIndex: 'id',
@@ -149,7 +150,10 @@ export default class Table extends React.Component {
       this.setState({
         selectedRowKeys: nextProps.rowSelection.selectedRowKeys || [],
       });
-      if (nextProps.rowSelection.getCheckboxProps !== this.props.rowSelection.getCheckboxProps) {
+      const { rowSelection } = this.props;
+      if (rowSelection && (
+        nextProps.rowSelection.getCheckboxProps !== rowSelection.getCheckboxProps
+      )) {
         this.CheckboxPropsCache = {};
       }
     }
@@ -572,10 +576,12 @@ export default class Table extends React.Component {
       let key = this.getColumnKey(column, i);
       let filterDropdown;
       let sortButton;
-      if (column.filters && column.filters.length > 0) {
+      if ((column.filters && column.filters.length > 0) || column.filterDropdown) {
         let colFilters = this.state.filters[key] || [];
         filterDropdown = (
-          <FilterDropdown locale={locale} column={column}
+          <FilterDropdown
+            locale={locale}
+            column={column}
             selectedKeys={colFilters}
             confirmFilter={this.handleFilter}
           />
@@ -734,13 +740,11 @@ export default class Table extends React.Component {
     const { style, className, ...restProps } = this.props;
     const data = this.getCurrentPageData();
     let columns = this.renderRowSelection();
-    
     //行编号
     if (this.props.rownumbers) {
         columns.unshift(rownumberColumn);
     }
     ///
-    
     const expandIconAsCell = this.props.expandedRowRender && this.props.expandIconAsCell !== false;
     const locale = this.getLocale();
 
