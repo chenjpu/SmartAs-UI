@@ -9,6 +9,20 @@ timeline: true
 
 ---
 
+## 1.6.2
+
+`2016-06-27`
+
+- 修复 Table、Transfer 的样式错位问题。
+- 修复 DatePicker 的一个样式问题。[#2182](https://github.com/ant-design/ant-design/issues/2182)
+- 优化 Menu 的 hover 样式响应性能。
+
+## 1.6.1
+
+`2016-06-24`
+
+- 回滚一个未完成的 DatePicker 时间选项改造效果。
+
 ## 1.6.0
 
 `2016-06-24`
