@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import classNames from 'classnames';
 import warning from 'warning';
+import assign from 'object-assign';
 
 function getScroll(w, top) {
   let ret = w[`page${top ? 'Y' : 'X'}Offset`];
@@ -133,8 +134,12 @@ export default class Affix extends React.Component<AffixProps, any> {
       'ant-affix': this.state.affixStyle,
     });
 
+    const props = assign({}, this.props);
+    delete props.offsetTop;
+    delete props.offsetBottom;
+
     return (
-      <div {...this.props}>
+      <div {...props}>
         <div className={className} ref="fixedNode" style={this.state.affixStyle}>
           {this.props.children}
         </div>

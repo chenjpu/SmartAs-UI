@@ -9,6 +9,13 @@ timeline: true
 
 ---
 
+## 1.6.3
+
+`2016-07-04`
+
+- 修复 Transfer 的一个 unmount 的错误。[#2206](https://github.com/ant-design/ant-design/pull/2206)
+- 修复了 Badge、Alert、Menu、Tag、Checkbox、Radio 组件的一些样式细节问题。
+
 ## 1.6.2
 
 `2016-06-27`
