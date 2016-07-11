@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import RcUpload from 'rc-upload';
 import UploadList from './uploadList';
 import getFileItem from './getFileItem';
@@ -188,12 +188,6 @@ export default class Upload extends React.Component {
     }
   }
 
-  handlePreview = (file) => {
-    if ('onPreview' in this.props) {
-      this.props.onPreview(file);
-    }
-  }
-
   handleManualRemove = (file) => {
     /*eslint-disable */
     file.status = 'removed';
@@ -206,9 +200,9 @@ export default class Upload extends React.Component {
   }
 
   onChange = (info) => {
-    this.setState({
-      fileList: info.fileList,
-    });
+    if (!('fileList' in this.props)) {
+      this.setState({ fileList: info.fileList });
+    }
     this.props.onChange(info);
   }
 
@@ -244,7 +238,7 @@ export default class Upload extends React.Component {
       uploadList = (
         <UploadList listType={this.props.listType}
           items={this.state.fileList}
-          onPreview={this.handlePreview}
+          onPreview={props.onPreview}
           onRemove={this.handleManualRemove}
         />
       );

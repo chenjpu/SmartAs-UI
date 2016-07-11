@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Animate from 'rc-animate';
 import Icon from '../icon';
 const prefixCls = 'ant-upload';
@@ -27,8 +27,10 @@ export default class UploadList extends React.Component {
   }
 
   handlePreview = (file, e) => {
-    e.preventDefault();
-    return this.props.onPreview(file);
+    if (this.props.onPreview) {
+      e.preventDefault();
+      return this.props.onPreview(file);
+    }
   }
 
   componentDidUpdate() {

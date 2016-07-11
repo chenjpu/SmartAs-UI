@@ -4,8 +4,8 @@ import ValueMixin from './ValueMixin';
 //import createDOMForm from 'rc-form/lib/createDOMForm';
 import { mixin as formMixin } from 'rc-form/lib/createForm';
 import createBaseForm from 'rc-form/lib/createBaseForm';
-
 import assign from 'object-assign';
+import { FIELD_META_PROP } from './constants';
 
 const mixin = {
   getForm() {
@@ -33,11 +33,10 @@ const mixin = {
   //////////////////////////////
 };
 
-
 Form.create = (o = {}) => {
   const options = assign({}, o, {
     fieldNameProp: 'id',
-    fieldMetaProp: '__meta',
+    fieldMetaProp: FIELD_META_PROP,
   });
 
   return createBaseForm(options,[mixin]);

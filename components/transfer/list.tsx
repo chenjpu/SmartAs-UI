@@ -1,10 +1,12 @@
-import React, { PropTypes } from 'react';
+import * as React from 'react';
 import Checkbox from '../checkbox';
 import Search from './search';
 import classNames from 'classnames';
 import Animate from 'rc-animate';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import assign from 'object-assign';
+import { TransferItem } from './index';
+
 function noop() {
 }
 
@@ -13,11 +15,41 @@ export function isRenderResultPlainObject(result) {
     Object.prototype.toString.call(result) === '[object Object]';
 }
 
-export default class TransferList extends React.Component {
+export interface TransferListProps {
+    prefixCls?: string,
+    /** 数据源 */
+    dataSource: Array<TransferItem>,
+    filter?: TransferItem,
+     /** 是否显示搜索框 */
+    showSearch?: boolean,
+     /** 搜索框的默认值 */
+    searchPlaceholder?: string,
+     /** 标题 */
+    titleText?: string,
+    style?: React.CSSProperties,
+    handleFilter?: Function,
+    handleSelect?: Function,
+    handleSelectAll?: Function,
+    handleClear?: Function,
+     /** 每行渲染函数 */
+    render?: Function,
+     /** 主体渲染函数 */
+    body?: Function,
+     /** 底部渲染函数 */
+    footer?: Function,
+     /** 选中项 */
+    checkedKeys?: Array<TransferItem>;
+    checkStatus?: boolean,
+    position?: string,
+    notFoundContent?: React.ReactNode | string,
+}
+
+export default class TransferList extends React.Component<TransferListProps, any> {
   static defaultProps = {
     dataSource: [],
     titleText: '',
     showSearch: false,
+    handleClear: noop,
     handleFilter: noop,
     handleSelect: noop,
     handleSelectAll: noop,
@@ -25,21 +57,6 @@ export default class TransferList extends React.Component {
     // advanced
     body: noop,
     footer: noop,
-  };
-
-  static propTypes = {
-    prefixCls: PropTypes.string,
-    dataSource: PropTypes.array,
-    showSearch: PropTypes.bool,
-    searchPlaceholder: PropTypes.string,
-    titleText: PropTypes.string,
-    style: PropTypes.object,
-    handleFilter: PropTypes.func,
-    handleSelect: PropTypes.func,
-    handleSelectAll: PropTypes.func,
-    render: PropTypes.func,
-    body: PropTypes.func,
-    footer: PropTypes.func,
   };
 
   static contextTypes = {
@@ -110,13 +127,12 @@ export default class TransferList extends React.Component {
   }
 
   matchFilter(text, filterText) {
-    const regex = new RegExp(filterText);
-    return text.match(regex);
+    return text.indexOf(filterText) >= 0;
   }
 
   render() {
     const { prefixCls, dataSource, titleText, filter, checkedKeys,
-            checkStatus, body, footer, showSearch, render } = this.props;
+            checkStatus, body, footer, showSearch, render, style } = this.props;
 
     let { searchPlaceholder, notFoundContent } = this.props;
 
@@ -129,17 +145,7 @@ export default class TransferList extends React.Component {
       [`${prefixCls}-with-footer`]: !!footerDom,
     });
 
-    const showItems = dataSource.filter((item) => {
-      const renderResult = render(item);
-      let itemText;
-      if (isRenderResultPlainObject(renderResult)) {
-        itemText = renderResult.value;
-      } else {
-        itemText = renderResult;
-      }
-      const filterResult = this.matchFilter(itemText, filter);
-      return !!filterResult;
-    }).map((item) => {
+    const showItems = dataSource.map((item) => {
       const renderResult = render(item);
       let renderedText;
       let renderedEl;
@@ -152,13 +158,17 @@ export default class TransferList extends React.Component {
         renderedEl = renderResult;
       }
 
+      if (filter && filter.trim() && !this.matchFilter(renderedText, filter)) {
+        return null;
+      }
+
       return (
         <li onClick={() => { this.handleSelect(item); }} key={item.key} title={renderedText}>
           <Checkbox checked={checkedKeys.some(key => key === item.key)} />
           <span>{renderedEl}</span>
         </li>
       );
-    });
+    }).filter(item => !!item);
 
     let unit = '条';
     if (this.context.antLocale &&
@@ -173,7 +183,7 @@ export default class TransferList extends React.Component {
     }
 
     return (
-      <div className={listCls} {...this.props}>
+      <div className={listCls} style={style}>
         <div className={`${prefixCls}-header`}>
           {this.renderCheckbox({
             prefixCls: 'ant-transfer',

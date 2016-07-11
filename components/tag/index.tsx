@@ -1,9 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import Animate from 'rc-animate';
 import Icon from '../icon';
 import classNames from 'classnames';
 import splitObject from '../_util/splitObject';
+import omit from 'object.omit';
+
 export default class Tag extends React.Component {
   static defaultProps = {
     prefixCls: 'ant-tag',
@@ -46,15 +48,22 @@ export default class Tag extends React.Component {
   render() {
     const [{
       prefixCls, closable, color, className, children
-    },restProps] = splitObject(this.props,
-      ['prefixCls', 'closable', 'color','className','children']);
-    const close = closable ? <Icon type="cross" onClick={this.close} /> : '';
+    }, otherProps] = splitObject(
+      this.props,
+      ['prefixCls', 'closable', 'color','className','children']
+    );
+    const closeIcon = closable ? <Icon type="cross" onClick={this.close} /> : '';
     const classString = classNames({
       [prefixCls]: true,
       [`${prefixCls}-${color}`]: !!color,
       [`${prefixCls}-close`]: this.state.closing,
       [className]: !!className,
     });
+    // fix https://fb.me/react-unknown-prop
+    const divProps = omit(otherProps, [
+      'onClose',
+      'afterClose',
+    ]);
     return (
       <Animate component=""
         showProp="data-show"
@@ -63,9 +72,9 @@ export default class Tag extends React.Component {
         onEnd={this.animationEnd}
       >
         {this.state.closed ? null : (
-          <div data-show={!this.state.closing} {...restProps} className={classString}>
+          <div data-show={!this.state.closing} {...divProps} className={classString}>
             <span className={`${prefixCls}-text`}>{children}</span>
-            {close}
+            {closeIcon}
           </div>
         )}
       </Animate>

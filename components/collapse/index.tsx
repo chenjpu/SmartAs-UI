@@ -1,5 +1,5 @@
 import RcCollapse from 'rc-collapse';
-import React from 'react';
+import * as React from 'react';
 
 export interface CollapseProps {
   activeKey?:Array<string> | string,
@@ -13,7 +13,7 @@ export interface CollapseProps {
   style?:React.CSSProperties
 }
 
-interface CollapsePanelProps {
+export interface CollapsePanelProps {
   /** 对应 activeKey */
   key:string,
   /** 面板头内容*/
@@ -22,7 +22,7 @@ interface CollapsePanelProps {
   style?:React.CSSProperties
 }
 
-declare class CollapsePanel extends React.Component<CollapsePanelProps, {}> {
+export class CollapsePanel extends React.Component<CollapsePanelProps, {}> {
 
 }
 
