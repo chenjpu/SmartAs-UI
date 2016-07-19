@@ -72,7 +72,7 @@ export default class Upload extends React.Component {
     showUploadList: true,
     listType: 'text', // or pictrue
     className: '',
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -83,7 +83,9 @@ export default class Upload extends React.Component {
   }
 
   onStart = (file) => {
-    if (this.recentUploadStatus === false) return;
+    if (this.recentUploadStatus === false) {
+      return;
+    }
 
     let targetItem;
     let nextFileList = this.state.fileList.concat();
@@ -140,21 +142,25 @@ export default class Upload extends React.Component {
     } catch (e) { /* do nothing */ }
     let fileList = this.state.fileList;
     let targetItem = getFileItem(file, fileList);
-    // 之前已经删除
-    if (targetItem) {
-      targetItem.status = 'done';
-      targetItem.response = response;
-      this.onChange({
-        file: targetItem,
-        fileList,
-      });
+    // removed
+    if (!targetItem) {
+      return;
     }
+    targetItem.status = 'done';
+    targetItem.response = response;
+    this.onChange({
+      file: targetItem,
+      fileList,
+    });
   }
 
   onProgress = (e, file) => {
     let fileList = this.state.fileList;
     let targetItem = getFileItem(file, fileList);
-    if (!targetItem) return;
+    // removed
+    if (!targetItem) {
+      return;
+    }
     targetItem.percent = e.percent;
     this.onChange({
       event: e,
@@ -167,6 +173,10 @@ export default class Upload extends React.Component {
     this.clearProgressTimer();
     let fileList = this.state.fileList;
     let targetItem = getFileItem(file, fileList);
+    // removed
+    if (!targetItem) {
+      return;
+    }
     targetItem.error = error;
     targetItem.response = response;
     targetItem.status = 'error';

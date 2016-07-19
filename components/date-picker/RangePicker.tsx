@@ -8,7 +8,7 @@ import Icon from '../icon';
 export default class RangePicker extends React.Component {
   static defaultProps = {
     defaultValue: [],
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -70,21 +70,15 @@ export default class RangePicker extends React.Component {
       'ant-calendar-time': showTime,
     });
 
+    // 需要选择时间时，点击 ok 时才触发 onChange
     let pickerChangeHandler = {
       onChange: this.handleChange,
     };
-
     let calendarHandler = {
       onOk: this.handleChange,
     };
-
     if (props.timePicker) {
-      pickerChangeHandler.onChange = (value) => {
-        // Click clear button
-        if (value === null || value.length === 0) {
-          this.handleChange(value);
-        }
-      };
+      pickerChangeHandler = {};
     } else {
       calendarHandler = {};
     }

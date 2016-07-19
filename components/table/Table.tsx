@@ -53,7 +53,7 @@ export default class Table extends React.Component {
     bordered: React.PropTypes.bool,
     onChange: React.PropTypes.func,
     locale: React.PropTypes.object,
-  }
+  };
 
   static defaultProps = {
     dataSource: [],
@@ -67,11 +67,11 @@ export default class Table extends React.Component {
     indentSize: 20,
     onChange: noop,
     locale: {},
-  }
+  };
 
   static contextTypes = {
     antLocale: React.PropTypes.object,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -549,6 +549,14 @@ export default class Table extends React.Component {
     return column.key || column.dataIndex || index;
   }
 
+  getMaxCurrent(total) {
+    const { current, pageSize } = this.state.pagination;
+    if ((current - 1) * pageSize >= total) {
+      return current - 1;
+    }
+    return current;
+  }
+
   isSortColumn(column) {
     const { sortColumn } = this.state;
     if (!column || !sortColumn) {
@@ -630,18 +638,21 @@ export default class Table extends React.Component {
       return null;
     }
     let size = 'default';
-    if (this.state.pagination.size) {
-      size = this.state.pagination.size;
+    const { pagination } = this.state;
+    if (pagination.size) {
+      size = pagination.size;
     } else if (this.props.size === 'middle' || this.props.size === 'small') {
       size = 'small';
     }
-    let total = this.state.pagination.total || this.getLocalData().length;
+    let total = pagination.total || this.getLocalData().length;
     return (total > 0) ?
-      <Pagination {...this.state.pagination}
+      <Pagination
+        {...pagination}
         className={`${this.props.prefixCls}-pagination`}
         onChange={this.handlePageChange}
         total={total}
         size={size}
+        current={this.getMaxCurrent(total)}
         onShowSizeChange={this.handleShowSizeChange}
       /> : null;
   }
@@ -675,8 +686,9 @@ export default class Table extends React.Component {
       current = 1;
     } else {
       pageSize = state.pagination.pageSize;
-      current = state.pagination.current;
+      current = this.getMaxCurrent(state.pagination.total || data.length);
     }
+
     // 分页
     // ---
     // 当数据量少于等于每页数量时，直接设置数据
@@ -726,9 +738,8 @@ export default class Table extends React.Component {
 
   render() {
     const [{
-      style, className
-    },restProps] = splitObject(this.props,
-      ['style', 'className']);
+      style, className,
+    }, restProps] = splitObject(this.props, ['style', 'className']);
     const data = this.getCurrentPageData();
     let columns = this.renderRowSelection();
     //行编号

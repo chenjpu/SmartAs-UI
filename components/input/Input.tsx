@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import calculateNodeHeight from './calculateNodeHeight';
 import assign from 'object-assign';
@@ -35,7 +35,7 @@ export default class Input extends Component {
     onPressEnter() {},
     onKeyDown() {},
     autosize: false,
-  }
+  };
 
   static propTypes = {
     type: PropTypes.string,
@@ -54,7 +54,7 @@ export default class Input extends Component {
     autosize: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     onPressEnter: PropTypes.func,
     onKeyDown: PropTypes.func,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -157,7 +157,7 @@ export default class Input extends Component {
     });
 
     if ('value' in props) {
-      props.value = fixControlledValue(props.value);
+      otherProps.value = fixControlledValue(props.value);
       // Input elements must be either controlled or uncontrolled,
       // specify either the value prop, or the defaultValue prop, but not both.
       delete otherProps.defaultValue;

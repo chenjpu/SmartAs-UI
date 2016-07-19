@@ -1,4 +1,5 @@
-import React, { cloneElement } from 'react';
+import * as React from 'react';
+import { cloneElement } from 'react';
 import BreadcrumbItem from './BreadcrumbItem';
 
 const defaultNameRender = (breadcrumbName, route, params) => {
@@ -13,13 +14,25 @@ const defaultNameRender = (breadcrumbName, route, params) => {
   return <span>{name}</span>;
 };
 
-export default class Breadcrumb extends React.Component {
+interface BreadcrumbProps {
+  prefixCls?: string;
+  routes?: Array<any>;
+  params?: Object;
+  separator?: string | React.ReactNode;
+  linkRender?: (link, name, paths: Array<any>) => React.ReactNode;
+  nameRender?: (breadcrumbName, route, params) => React.ReactNode;
+  style?: React.CSSProperties;
+}
+
+export default class Breadcrumb extends React.Component<BreadcrumbProps, any> {
+  static Item: any;
+
   static defaultProps = {
     prefixCls: 'ant-breadcrumb',
     separator: '/',
     linkRender: (href, name) => <a href={`#${href}`}>{name}</a>,
     nameRender: defaultNameRender,
-  }
+  };
 
   static propTypes = {
     prefixCls: React.PropTypes.string,
@@ -31,7 +44,7 @@ export default class Breadcrumb extends React.Component {
     params: React.PropTypes.object,
     linkRender: React.PropTypes.func,
     nameRender: React.PropTypes.func,
-  }
+  };
 
   render() {
     let crumbs;
@@ -56,7 +69,7 @@ export default class Breadcrumb extends React.Component {
         return null;
       });
     } else {
-      crumbs = React.Children.map(children, (element, index) => {
+      crumbs = React.Children.map(children, (element: any, index) => {
         return cloneElement(element, {
           separator,
           key: index,

@@ -4,8 +4,16 @@ import splitObject from '../_util/splitObject';
 
 const prefix = 'ant-btn-group-';
 
-export default function ButtonGroup(props) {
-  const [{size, className},others] = splitObject(props, ['size', 'className']);
+type ButtonSize = 'small' | 'large'
+
+interface ButtonGroupProps {
+  size?: ButtonSize;
+  style?: React.CSSProperties;
+  className?: string;
+}
+
+export default function ButtonGroup(props: ButtonGroupProps) {
+  const [{ size, className }, others] = splitObject(props, ['size', 'className']);
 
   // large => lg
   // small => sm
@@ -22,7 +30,3 @@ export default function ButtonGroup(props) {
 
   return <div {...others} className={classes} />;
 }
-
-ButtonGroup.propTypes = {
-  size: React.PropTypes.oneOf(['large', 'small']),
-};

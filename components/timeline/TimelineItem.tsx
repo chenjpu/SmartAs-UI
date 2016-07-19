@@ -1,19 +1,28 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import splitObject from '../_util/splitObject';
-export default class TimelineItem extends React.Component {
+
+// Timeline
+export interface TimeLineItemProps {
+  /** 指定圆圈颜色 */
+  color?: string;
+  dot?: React.ReactNode;
+  style?: React.CSSProperties;
+}
+
+export default class TimelineItem extends React.Component<TimeLineItemProps, any> {
   static defaultProps = {
     prefixCls: 'ant-timeline',
     color: 'blue',
     last: false,
     pending: false,
-  }
+  };
 
   render() {
     const [{
-      prefixCls, color, last, children, pending, className, dot
-    },restProps] = splitObject(this.props,
-      ['prefixCls', 'color', 'last','children','pending','className','dot']);
+      prefixCls, color, last, children, pending, className, dot,
+    }, restProps] = splitObject(this.props,
+      ['prefixCls', 'color', 'last', 'children', 'pending', 'className', 'dot']);
 
     const itemClassName = classNames({
       [`${prefixCls}-item`]: true,

@@ -6,7 +6,7 @@ import warning from 'warning';
 import assign from 'object-assign';
 import shallowequal from 'shallowequal';
 
-function getScroll(w, top) {
+function getScroll(w, top?: boolean) {
   let ret = w[`page${top ? 'Y' : 'X'}Offset`];
   const method = `scroll${top ? 'Top' : 'Left'}`;
   if (typeof ret !== 'number') {
@@ -40,30 +40,42 @@ export interface AffixProps {
   /**
    * 距离窗口顶部达到指定偏移量后触发
    */
-  offsetTop?:number,
-  offsetBottom?:number,
-  style?:React.CSSProperties
+  offsetTop?: number;
+  offset?: number;
+  offsetBottom?: number;
+  style?: React.CSSProperties;
+  onChange?: (affixed?: boolean) => any;
 }
 
 export default class Affix extends React.Component<AffixProps, any> {
   static propTypes = {
     offsetTop: React.PropTypes.number,
     offsetBottom: React.PropTypes.number,
-  }
+  };
 
   static defaultProps = {
     onChange() {},
-  }
+  };
+
+  scrollEvent: any;
+  resizeEvent: any;
+  refs: {
+    fixedNode: any;
+  };
 
   constructor(props) {
     super(props);
     this.state = {
       affixStyle: null,
+      placeholderStyle: null,
     };
   }
 
-  setAffixStyle(affixStyle) {
+  setAffixStyle(e, affixStyle) {
     const originalAffixStyle = this.state.affixStyle;
+    if (e.type === 'scroll' && originalAffixStyle && affixStyle) {
+      return;
+    }
     if (shallowequal(affixStyle, originalAffixStyle)) {
       return;
     }
@@ -76,19 +88,35 @@ export default class Affix extends React.Component<AffixProps, any> {
     });
   }
 
-  handleScroll = () => {
+  setPlaceholderStyle(e, placeholderStyle) {
+    const originalPlaceholderStyle = this.state.placeholderStyle;
+    if (e.type === 'resize') {
+      return;
+    }
+    if (shallowequal(placeholderStyle, originalPlaceholderStyle)) {
+      return;
+    }
+    this.setState({ placeholderStyle });
+  }
+
+  handleScroll = (e) => {
     let { offsetTop, offsetBottom, offset } = this.props;
 
     // Backwards support
     offsetTop = offsetTop || offset;
     const scrollTop = getScroll(window, true);
-    const elemOffset = getOffset(ReactDOM.findDOMNode(this));
+    const affixNode = ReactDOM.findDOMNode(this) as HTMLElement;
+    const fixedNode = ReactDOM.findDOMNode(this.refs.fixedNode) as HTMLElement;
+    const elemOffset = getOffset(affixNode);
     const elemSize = {
-      width: ReactDOM.findDOMNode(this.refs.fixedNode).offsetWidth,
-      height: ReactDOM.findDOMNode(this.refs.fixedNode).offsetHeight,
+      width: fixedNode.offsetWidth,
+      height: fixedNode.offsetHeight,
     };
 
-    const offsetMode = {};
+    const offsetMode = {
+      top: null as boolean,
+      bottom: null as boolean,
+    };
     if (typeof offsetTop !== 'number' && typeof offsetBottom !== 'number') {
       offsetMode.top = true;
       offsetTop = 0;
@@ -99,23 +127,32 @@ export default class Affix extends React.Component<AffixProps, any> {
 
     if (scrollTop > elemOffset.top - offsetTop && offsetMode.top) {
       // Fixed Top
-      this.setAffixStyle({
+      this.setAffixStyle(e, {
         position: 'fixed',
         top: offsetTop,
         left: elemOffset.left,
-        width: ReactDOM.findDOMNode(this).offsetWidth,
+        width: affixNode.offsetWidth,
+      });
+      this.setPlaceholderStyle(e, {
+        width: affixNode.offsetWidth,
+        height: affixNode.offsetHeight,
       });
     } else if (scrollTop < elemOffset.top + elemSize.height + offsetBottom - window.innerHeight &&
                offsetMode.bottom) {
       // Fixed Bottom
-      this.setAffixStyle({
+      this.setAffixStyle(e, {
         position: 'fixed',
         bottom: offsetBottom,
         left: elemOffset.left,
-        width: ReactDOM.findDOMNode(this).offsetWidth,
+        width: affixNode.offsetWidth,
+      });
+      this.setPlaceholderStyle(e, {
+        width: affixNode.offsetWidth,
+        height: affixNode.offsetHeight,
       });
     } else {
-      this.setAffixStyle(null);
+      this.setAffixStyle(e, null);
+      this.setPlaceholderStyle(e, null);
     }
   }
 
@@ -144,7 +181,7 @@ export default class Affix extends React.Component<AffixProps, any> {
     delete props.offsetBottom;
 
     return (
-      <div {...props}>
+      <div {...props} style={this.state.placeholderStyle}>
         <div className={className} ref="fixedNode" style={this.state.affixStyle}>
           {this.props.children}
         </div>

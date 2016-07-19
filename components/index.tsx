@@ -1,7 +1,23 @@
 import Affix from './affix';
 export { Affix };
 
-// export {default as } does not work for ie8
+import Alert from './alert';
+export { Alert };
+
+import BackTop from './back-top';
+export { BackTop };
+
+import Badge from './badge';
+export { Badge };
+
+import Breadcrumb from './breadcrumb';
+export { Breadcrumb };
+
+import Button from './button';
+export { Button };
+
+import Card from './card';
+export { Card };
 
 import Collapse from './collapse';
 export { Collapse };
@@ -17,3 +33,18 @@ export { Transfer };
 
 import Tree from './tree';
 export { Tree };
+
+import Tabs from './tabs';
+export { Tabs }
+
+import Tag from './tag';
+export { Tag }
+
+import TimePicker from './time-picker';
+export { TimePicker }
+
+import Timeline from './timeline';
+export { Timeline }
+
+import Tooltip from './tooltip';
+export { Tooltip }
