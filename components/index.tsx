@@ -1,6 +1,9 @@
 import Affix from './affix';
 export { Affix };
 
+import AutoComplete from './auto-complete';
+export { AutoComplete };
+
 import Alert from './alert';
 export { Alert };
 
@@ -28,6 +31,9 @@ export { Carousel };
 import Cascader from './cascader';
 export { Cascader };
 
+import Popconfirm from './popconfirm';
+export { Popconfirm };
+
 import Transfer from './transfer';
 export { Transfer };
 
@@ -48,3 +54,6 @@ export { Timeline }
 
 import Tooltip from './tooltip';
 export { Tooltip }
+
+import Mention from './mention';
+export { Mention };

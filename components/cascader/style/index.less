@@ -156,15 +156,14 @@
     &-active:not(&-disabled) {
       &,
       &:hover {
-        background-color: #f7f7f7;
+        background-color: @background-color-base;
         font-weight: bold;
       }
     }
     &-expand {
       position: relative;
       &:after {
-        content: '\e600';
-        font-family: 'anticon';
+        .iconfont-font("\e600");
         .iconfont-size-under-12px(8px);
         color: #999;
         position: absolute;

@@ -101,7 +101,7 @@ input[type="checkbox"] {
     margin: 4px 0;
   }
 
-  &.@{form-prefix-cls}-no-colon > label:after {
+  &-no-colon &-label label:after {
     content: " ";
   }
 }
@@ -274,12 +274,12 @@ form {
     top: 0;
     right: 0;
     visibility: visible;
-    font-family: "anticon" !important;
     .square(@input-height-lg);
     line-height: @input-height-lg;
     text-align: center;
     font-size: 14px;
     animation: zoomIn .3s @ease-out-back;
+    .iconfont-font("");
   }
 }
 
@@ -388,6 +388,18 @@ form {
     box-shadow: 0 0 0 2px fade(@error-color, 20%);
     &:not([disabled]):hover {
       border-color: @error-color;
+    }
+  }
+  .ant-mention-wrapper,
+  .ant-mention-wrapper.active {
+    .ant-mention-editor {
+      border-color: @error-color;
+      box-shadow: 0 0 0 2px fade(@error-color, 20%);
+      &:not([disabled]):hover,
+      &:not([disabled]):focus {
+        border-color: @error-color;
+        box-shadow: 0 0 0 2px fade(@error-color, 20%);
+      }
     }
   }
 }

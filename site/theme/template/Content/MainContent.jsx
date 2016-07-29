@@ -13,13 +13,16 @@ export default class MainContent extends React.Component {
   }
 
   componentDidMount() {
+    this.componentDidUpdate();
+    this.timer = setTimeout(() => {
+      document.getElementById(decodeURI(location.hash.replace('#', ''))).scrollIntoView();
+    }, 10);
+  }
+
+  componentDidUpdate() {
     if (!location.hash) {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
-    } else {
-      this.timer = setTimeout(() => {
-        document.getElementById(location.hash.replace('#', '')).scrollIntoView();
-      }, 10);
     }
   }
 
@@ -138,10 +141,9 @@ export default class MainContent extends React.Component {
 
     const locale = this.context.intl.locale;
     const moduleData = this.props.moduleData;
-    const localizedPageData = moduleData.filter((page) => {
-      return page.meta.filename.toLowerCase()
-        .startsWith(props.location.pathname);
-    })[0];
+    const localizedPageData = moduleData.filter(
+      page => page.meta.filename.toLowerCase().startsWith(props.location.pathname)
+    )[0];
 
     return (
       <div className="main-wrapper">

@@ -23,7 +23,7 @@ ReactDOM.render(
     </Breadcrumb.Item>
     <Breadcrumb.Item href="">
       <Icon type="user" />
-      Application List
+      <span>Application List</span>
     </Breadcrumb.Item>
     <Breadcrumb.Item>
       Application

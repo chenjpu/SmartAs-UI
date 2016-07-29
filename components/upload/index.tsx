@@ -53,13 +53,14 @@ function genPercentAdd() {
 }
 
 export function Dragger(props) {
-  return <Upload {...props} type="drag" style={{ height: props.height }} />;
+  return <Upload {...props} type="drag" style={{ height: props.height }}/>;
 }
 
 export default class Upload extends React.Component {
   static Dragger = Dragger;
 
   static defaultProps = {
+    prefixCls: 'ant-upload-btn',
     type: 'select',
     // do not set
     // name: '',
@@ -139,7 +140,8 @@ export default class Upload extends React.Component {
       if (typeof response === 'string') {
         response = JSON.parse(response);
       }
-    } catch (e) { /* do nothing */ }
+    } catch (e) { /* do nothing */
+    }
     let fileList = this.state.fileList;
     let targetItem = getFileItem(file, fileList);
     // removed
@@ -199,9 +201,9 @@ export default class Upload extends React.Component {
   }
 
   handleManualRemove = (file) => {
-    /*eslint-disable */
+    /* eslint-disable */
     file.status = 'removed';
-    /*eslint-enable */
+    /* eslint-enable */
     if ('onRemove' in this.props) {
       this.props.onRemove(file);
     } else {
@@ -246,7 +248,8 @@ export default class Upload extends React.Component {
     let uploadList;
     if (this.props.showUploadList) {
       uploadList = (
-        <UploadList listType={this.props.listType}
+        <UploadList
+          listType={this.props.listType}
           items={this.state.fileList}
           onPreview={props.onPreview}
           onRemove={this.handleManualRemove}
@@ -260,7 +263,8 @@ export default class Upload extends React.Component {
         ? `${prefixCls}-drag-hover` : '';
       return (
         <span className={this.props.className}>
-          <div className={`${prefixCls} ${prefixCls}-drag ${dragUploadingClass} ${draggingClass}`}
+          <div
+            className={`${prefixCls} ${prefixCls}-drag ${dragUploadingClass} ${draggingClass}`}
             onDrop={this.onFileDrop}
             onDragOver={this.onFileDrop}
             onDragLeave={this.onFileDrop}
