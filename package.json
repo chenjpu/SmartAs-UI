@@ -1,6 +1,6 @@
 {
   "name": "antd",
-  "version": "1.6.5",
+  "version": "1.7.0",
   "title": "Ant Design",
   "description": "一个 UI 设计语言",
   "homepage": "http://ant.design/",
@@ -33,6 +33,7 @@
   "typings": "lib/index.d.ts",
   "license": "MIT",
   "dependencies": {
+    "babel-runtime": "6.x",
     "array-tree-filter": "~1.0.0",
     "classnames": "~2.2.0",
     "css-animation": "^1.2.5",
@@ -75,11 +76,11 @@
     "warning": "~3.0.0"
   },
   "devDependencies": {
-    "antd-tools": "^0.10.0",
+    "antd-tools": "^0.11.0",
     "babel-eslint": "^6.0.2",
     "babel-jest": "^13.2.2",
     "babel-plugin-antd": "^0.4.0",
-    "bisheng": "^0.9.0",
+    "bisheng": "^0.12.0",
     "bisheng-plugin-antd": "~0.2.0",
     "bisheng-plugin-description": "^0.1.1",
     "bisheng-plugin-react": "^0.2.0",
@@ -131,8 +132,7 @@
     "start": "bisheng start -c ./site/bisheng.config.js",
     "site": "bisheng build -c ./site/bisheng.config.js",
     "pre-deploy": "mkdir -p _site && cp CNAME _site",
-    "deploy": "tnpm run clean && tnpm i && tnpm run just-deploy",
-    "just-deploy": "tnpm run pre-deploy && bisheng gh-pages -c ./site/bisheng.config.js",
+    "deploy": "npm run clean && npm run pre-deploy && bisheng gh-pages -c ./site/bisheng.config.js",
     "lint": "npm run tslint && npm run srclint && npm run demolint && npm run lesshint",
     "srclint": "RUN_ENV=SRC eslint test site scripts ./*.js --ext '.js,.jsx,.tsx'",
     "tslint": "antd-tools run ts-lint",
