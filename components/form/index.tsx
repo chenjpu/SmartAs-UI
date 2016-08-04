@@ -29,7 +29,7 @@ const mixin = {
   ///////////扩展定义，格式化表单的值
   getLookupFieldProps(name, fieldOption = {}) {
   	return this.getFieldProps(name, assign({normalize:lookupNormalize},fieldOption));
-  }
+  },
   
   getFormatFieldsValue(names) {
 	const fields = names || this.getValidFieldsName();
@@ -38,7 +38,7 @@ const mixin = {
       allValues[f] = this.getFormatValue(f);
     });
     return allValues;
-  }
+  },
   
   getFormatValue(name) {
 	const fieldMeta = this.getFieldMeta(name), field = this.getField(name),instance = this.getFieldInstance(name);

@@ -66,6 +66,7 @@ CustomizedForm = Form.create({})(CustomizedForm);
 | 参数      | 说明                                     | 类型       |
 |-----------|------------------------------------------|------------|
 | getFieldsValue | 获取一组输入控件的值，如不传入参数，则获取全部组件的值 | Function([fieldNames: string[]]) |
+| getFormatFieldsValue | 获取一组格式化输入控件的值，如不传入参数，则获取全部组件的值 | Function([fieldNames: string[]]) |
 | getFieldValue | 获取一个输入控件的值 | Function(fieldName: string) |
 | setFieldsValue | 设置一组输入控件的值 | Function(obj: object) |
 | setFields | 设置一组输入控件的值与 Error | Function(obj: object) |
@@ -75,6 +76,7 @@ CustomizedForm = Form.create({})(CustomizedForm);
 | isFieldValidating | 判断一个输入控件是否在校验状态 | Function(name) |
 | resetFields | 重置一组输入控件的值与状态，如不传入参数，则重置所有组件 | Function([names: string[]]) |
 | getFieldProps | 用于和表单进行双向绑定，详见下方描述 | |
+| getLookFieldProps | 用于lookup和表单进行双向绑定，详见下方描述 | |
 
 ### this.props.form.getFieldProps(id, options)
 
