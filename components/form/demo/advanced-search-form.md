@@ -13,9 +13,10 @@ title:
 
 ## en-US
 
-Three columns layout is often used to advanced searching of data table.
+Three columns layout is often used for advanced searching of data table.
 
-Because the width of label is not definite, you need to adjust the custom stlye case by case.
+Because the width of label is not fixed, you may need to adjust it by customizing its style.
+
 
 ````jsx
 import { Form, Input, Row, Col, Button, DatePicker } from 'antd';
@@ -114,7 +115,8 @@ ReactDOM.render(
   border-radius: 6px;
 }
 
-/* becasue the label width is not definite, you need to adjust it to center by yourself */
+/* because the label width is not fixed, you may need to adjust it to center by yourself */
+
 .ant-advanced-search-form > .ant-row {
   position: relative;
   left: -6px;
